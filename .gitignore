@@ -1,0 +1,4 @@
+# Local testing artifacts - not needed for end users
+*.html
+*-workspace/
+pm-interview-coach-workspace/
