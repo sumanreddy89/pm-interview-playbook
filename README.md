@@ -8,9 +8,9 @@ Each framework explains **what the question tests**, **how interviewers evaluate
 
 ---
 
-## 📦 What's Included
+## What's Included
 
-### 🎯 The Claude Skill: `pm-interview-coach`
+### The Claude Skill: `pm-interview-coach`
 
 The headline feature of this repo is a **Claude skill** that turns these static frameworks into an interactive interview coaching experience.
 
@@ -26,7 +26,7 @@ Claude will follow the frameworks, ask follow-up questions like a real interview
 
 ---
 
-### 📚 The Framework Library
+### The Framework Library
 
 23 frameworks across 6 categories:
 
@@ -160,7 +160,7 @@ Please open a PR or file an issue.
 
 ## About the Author
 
-Built by **Suman Reddy** — a product manager who went through the PM interview grind and wanted to make structured prep more accessible.
+Built by **Suman Reddy** — a product manager who went through the PM interview grind and wanted to make structured prep more accessible to everyone.
 
 If you're looking for PM mentoring, interview coaching, or just want to connect, visit **[sumanreddy.me](https://www.sumanreddy.me)**.
 
