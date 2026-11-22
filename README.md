@@ -20,7 +20,9 @@ Once installed, you can say things like:
 - *"Give me feedback on my answer to a product improvement question"*
 - *"How do I structure an estimation question?"*
 
-Claude will follow the frameworks, ask follow-up questions like a real interviewer, and give you specific, actionable feedback based on the exact evaluation criteria that real interviewers use.
+Claude follows the frameworks, asks follow-up questions like an interviewer, and scores your answer competency by competency (structure, user insight, trade-offs, metrics and more) at the level you're interviewing for, quoting your answer as evidence for each score. The rubric is in [frameworks/rubric.md](frameworks/rubric.md); it's this playbook's synthesis of common PM interview practice, not any one company's criteria.
+
+**Mock interviews are simulations:** timed questions, interviewer follow-ups, and no feedback until the end. Then you get scores for each answer, patterns across them, and a practice record to paste into your next session so it targets your weak spots.
 
 → **[How to use this repo](#how-to-use-this-repo)**
 
@@ -145,6 +147,14 @@ Each file follows the same structure:
 You can use them purely as reading material, or pair them with the Claude skill for active practice.
 
 ---
+
+## Evals
+
+`pm-interview-coach/evals/evals.json` has the skill's test prompts and what a good response looks like, in the format the skill-creator skill runs. Besides teaching, practice and mock cases, it includes a calibration set: the same metrics question answered weakly, middlingly and strongly (scores should rise in that order), and one answer scored at two levels (APM should score higher than Group PM). The expected bands are the author's; checking them against human interviewers' scores is the next step.
+
+## Editing the frameworks
+
+`frameworks/` is the source. The skill ships a copy in `pm-interview-coach/references/`. After editing a framework, run `./scripts/sync-references.sh`; CI fails if the copy has drifted, and builds the installable `.skill` file on every change.
 
 ## Contributing
 

@@ -2,6 +2,8 @@
 
 This index maps question types to their reference files. When a user selects a framework to practice, load the corresponding file.
 
+Scoring: `rubric.md` holds the competency rubric (1–4, with level expectations) used to score answers.
+
 ## Framework Map
 
 | Question Type | Reference File | Sample Questions |

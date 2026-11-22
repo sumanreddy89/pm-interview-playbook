@@ -1,0 +1,26 @@
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  references:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: The skill's references match frameworks/
+        run: ./scripts/sync-references.sh --check
+      - name: Build the installable skill
+        run: |
+          mkdir -p dist
+          zip -qr dist/pm-interview-coach.skill pm-interview-coach
+          unzip -l dist/pm-interview-coach.skill | tail -1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pm-interview-coach.skill
+          path: dist/pm-interview-coach.skill
