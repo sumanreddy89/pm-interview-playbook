@@ -4,6 +4,7 @@
     python3 scripts/run_evals.py --check            # validate evals.json; no API calls (CI runs this)
     ANTHROPIC_API_KEY=... python3 scripts/run_evals.py [--model claude-sonnet-5-5] [--only 4,5,6]
     python3 scripts/run_evals.py --ant              # use your `ant auth login` instead of a key
+    ANTHROPIC_WORKSPACE_ID=wrkspc_... (with a key that isn't scoped to one workspace)
 
 Run mode sends each case that has an "assert" to the Claude API with the skill and its
 references as the system prompt, asks for the scores as JSON at the end, and checks:
@@ -19,6 +20,7 @@ import os
 import re
 import subprocess
 import sys
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -142,10 +144,17 @@ def ask_ant(model, system, prompt):
 def ask(model, system, prompt, key):
     body = json.dumps({"model": model, "max_tokens": 2500, "temperature": 0, "system": system,
                        "messages": [{"role": "user", "content": prompt}]}).encode()
-    req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, headers={
-        "content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01"})
-    with urllib.request.urlopen(req, timeout=180) as r:
-        data = json.load(r)
+    headers = {"content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01"}
+    if os.environ.get("ANTHROPIC_WORKSPACE_ID"):
+        # Keys that aren't scoped to a workspace must name one on every request.
+        headers["anthropic-workspace-id"] = os.environ["ANTHROPIC_WORKSPACE_ID"]
+    req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=180) as r:
+            data = json.load(r)
+    except urllib.error.HTTPError as e:
+        # Show the API's reason (bad key, no workspace, low credit) instead of a bare status.
+        raise RuntimeError(f"HTTP {e.code}: " + " ".join(e.read().decode("utf-8", "replace").split())[:600]) from None
     return "".join(b.get("text", "") for b in data.get("content", []))
 
 
