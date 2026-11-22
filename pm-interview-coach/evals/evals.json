@@ -23,25 +23,168 @@
       "id": 4,
       "prompt": "Score my answer for a PM role. Question: What metrics would you define for Spotify's new podcast comments feature?\nMy answer: I'd look at DAU, MAU and the number of comments. If comments go up, the feature is working. I'd also track time spent in the app because that's important for Spotify.",
       "expected_output": "Calibration (weak). Scores mostly 1s: no product goal, vanity metrics (DAU/MAU, raw comment count), no guardrails, no user focus. Quotes 'If comments go up, the feature is working' as evidence of the missing counter-metric. The one improvement is to start from the goal and add a guardrail. No competency above 2.",
-      "files": []
+      "files": [],
+      "group": "metrics-calibration",
+      "assert": {
+        "mean_score_between": [
+          1.0,
+          2.0
+        ]
+      }
     },
     {
       "id": 5,
       "prompt": "Score my answer for a PM role. Question: What metrics would you define for Spotify's new podcast comments feature?\nMy answer: First, the goal: comments should make podcast listening more social so people come back. My North Star would be weekly listeners who read or write a comment. I'd also track comments per episode and replies per comment. If those go up, we've succeeded.",
       "expected_output": "Calibration (middling). Mostly 2s with a 3 for structure or metrics: states a goal and a North Star, but no guardrails or counter-metrics and no segment. Quotes the North Star line as the strength and 'If those go up, we've succeeded' as the gap. Overall clearly above case 4 and below case 6.",
-      "files": []
+      "files": [],
+      "group": "metrics-calibration",
+      "assert": {
+        "mean_score_between": [
+          1.75,
+          2.75
+        ]
+      }
     },
     {
       "id": 6,
       "prompt": "Score my answer for a PM role. Question: What metrics would you define for Spotify's new podcast comments feature?\nMy answer: Let me start with why Spotify would build this: to deepen engagement with podcasts, where it competes with Apple and YouTube, and to give creators a reason to publish on Spotify first. So the goal is listener retention and creator loyalty. I'll focus on regular podcast listeners, since that's where comments are likely to matter. North Star: share of weekly podcast listeners who engage with comments (read, react or write), because reading matters as much as writing. Supporting: replies per comment, for real conversation, and creator responses. Guardrails: listening time per session must not drop if comments pull attention away from the audio, report rate and moderation load, and creator opt-out rate. Finally, I'd compare 4-week podcast retention for engaged and matched non-engaged listeners, because comment counts alone could go up from spam without any value.",
       "expected_output": "Calibration (strong). Mostly 3s and 4s: ties the goal to Spotify's strategy, picks a segment for a reason, reading counts as engagement, guardrails on listening time, moderation and creator opt-out, and a retention comparison that guards against spam inflating counts. Quotes at least two of these. Still names one improvement, such as sizing or how to set targets.",
-      "files": []
+      "files": [],
+      "group": "metrics-calibration",
+      "assert": {
+        "mean_score_between": [
+          2.75,
+          4.0
+        ]
+      }
     },
     {
       "id": 7,
       "prompt": "Score this same answer twice: once for an APM role and once for a Group PM role. Question: What metrics would you define for Spotify's new podcast comments feature?\nAnswer: First, the goal: comments should make podcast listening more social so people come back. My North Star would be weekly listeners who read or write a comment. I'd also track comments per episode and replies per comment. If those go up, we've succeeded.",
       "expected_output": "Uses the level table in references/rubric.md. The APM scores are higher than the Group PM scores for the same answer, because a Group PM is expected to frame strategy, sequence bets and handle second-order effects unprompted. Explains which expectations changed, with the same quotes as evidence.",
+      "files": [],
+      "assert": {
+        "apm_mean_above_gpm_mean": true
+      }
+    },
+    {
+      "id": 8,
+      "group": "estimation-calibration",
+      "prompt": "Score my answer for a PM role. Question: Estimate the number of UPI payments made at small shops in a city of 2 million people on a typical day.\nMy answer: Maybe around 10 million payments a day, because India does a lot of UPI and 2 million people probably pay several times each day.",
+      "expected_output": "Calibration (weak). No clarification of scope, no structure, an unsupported number. Mostly 1s.",
+      "assert": {
+        "mean_score_between": [
+          1.0,
+          2.0
+        ]
+      },
       "files": []
+    },
+    {
+      "id": 9,
+      "group": "estimation-calibration",
+      "prompt": "Score my answer for a PM role. Question: Estimate the number of UPI payments made at small shops in a city of 2 million people on a typical day.\nMy answer: 2 million people. Maybe 60% are adults, so 1.2 million. Say half use UPI, 600,000. Each pays at shops twice a day, so 1.2 million payments a day.",
+      "expected_output": "Calibration (middling). A simple top-down chain with stated numbers, but no scope clarification, no segmentation of heavy vs light users and no sanity check. Mostly 2s.",
+      "assert": {
+        "mean_score_between": [
+          1.75,
+          2.75
+        ]
+      },
+      "files": []
+    },
+    {
+      "id": 10,
+      "group": "estimation-calibration",
+      "prompt": "Score my answer for a PM role. Question: Estimate the number of UPI payments made at small shops in a city of 2 million people on a typical day.\nMy answer: Let me clarify: small shops means kiranas, street vendors, tea stalls and small restaurants, on a weekday. I'll go from people. 2 million people, about 1.4 million adults. Smartphone users who pay by UPI: say 65% in a city, about 900,000. Not everyone pays at small shops daily: heavy users, maybe a third, make 3 small payments a day; the rest average 1 every other day. That's 300,000 × 3 = 900,000 plus 600,000 × 0.5 = 300,000, about 1.2 million a day. Cross-check from shops: a city this size might have 25,000 small shops; if a busy one takes 80 UPI payments a day and a quiet one 20, an average of 45 gives about 1.1 million. The two routes agree, so I'd say roughly 1 to 1.5 million, and I'd check published monthly UPI figures to calibrate the per-person rate.",
+      "expected_output": "Calibration (strong). Clarifies scope, segments users, a second route from the shop side that agrees, gives a range and says how to calibrate. Mostly 3s and 4s.",
+      "assert": {
+        "mean_score_between": [
+          2.75,
+          4.0
+        ]
+      },
+      "files": []
+    },
+    {
+      "id": 11,
+      "group": "prioritization-calibration",
+      "prompt": "Score my answer for a PM role. Question: As PM of a neighbourhood grocery app, prioritize: an offline mode, or a regional-language UI. You can only build one this quarter.\nMy answer: Regional language, because India has many languages and it's important to be inclusive.",
+      "expected_output": "Calibration (weak). A pick with a generic reason, no goal, no criteria, no trade-off. Mostly 1s.",
+      "assert": {
+        "mean_score_between": [
+          1.0,
+          2.0
+        ]
+      },
+      "files": []
+    },
+    {
+      "id": 12,
+      "group": "prioritization-calibration",
+      "prompt": "Score my answer for a PM role. Question: As PM of a neighbourhood grocery app, prioritize: an offline mode, or a regional-language UI. You can only build one this quarter.\nMy answer: I'd use RICE. Language reaches more users, impact is high, confidence medium, effort medium. Offline mode reaches fewer, effort is high. So language wins on RICE.",
+      "expected_output": "Calibration (middling). Names a framework and applies it loosely, but with no goal, no evidence and no trade-off or mitigation. Mostly 2s.",
+      "assert": {
+        "mean_score_between": [
+          1.75,
+          2.75
+        ]
+      },
+      "files": []
+    },
+    {
+      "id": 13,
+      "group": "prioritization-calibration",
+      "prompt": "Score my answer for a PM role. Question: As PM of a neighbourhood grocery app, prioritize: an offline mode, or a regional-language UI. You can only build one this quarter.\nMy answer: First the goal: this quarter the company wants to grow first-time orders outside the metros, so I'll judge both against that. Who's stuck today? If funnel data shows new users in tier-2 towns dropping at search and product pages, and support tickets are about not understanding product names, that's a language problem. If they drop at checkout during outages and sessions end on network errors, that's connectivity. I'd pull both before deciding. With no data, I'd pick the regional-language UI: it removes a barrier at the first screen for a large share of target users, while offline mode mainly helps people who already browse and is costly to build well (sync, stale prices, stock). Trade-off: we accept failed orders on bad networks for another quarter, so I'd ship a cheap mitigation: saved carts and retry on reconnect. I'd measure first-order conversion for new tier-2 users by language, and revisit if network errors rise above a threshold we set now.",
+      "expected_output": "Calibration (strong). Anchors on the quarter's goal, says what data would decide it, picks with reasons, names the cost of not choosing the other and a mitigation, and defines a measure and a trigger to revisit. Mostly 3s and 4s.",
+      "assert": {
+        "mean_score_between": [
+          2.75,
+          4.0
+        ]
+      },
+      "files": []
+    },
+    {
+      "id": 14,
+      "group": "design-calibration",
+      "prompt": "Score my answer for a PM role. Question: Design a voice-first ordering experience for a neighbourhood grocery app aimed at first-time smartphone users.\nMy answer: I'd add a microphone button so people can talk to order. It would use AI to understand them and show the items. It would be easy and fun.",
+      "expected_output": "Calibration (weak). A feature with no user, no problem and no success measure. Mostly 1s.",
+      "assert": {
+        "mean_score_between": [
+          1.0,
+          2.0
+        ]
+      },
+      "files": []
+    },
+    {
+      "id": 15,
+      "group": "design-calibration",
+      "prompt": "Score my answer for a PM role. Question: Design a voice-first ordering experience for a neighbourhood grocery app aimed at first-time smartphone users.\nMy answer: Goal: help first-time smartphone users place a correct grocery order without typing. Users: people who are comfortable talking but not typing or reading English, often ordering for a household, on entry-level phones with patchy data. Their pains: not finding items by name, fear of ordering the wrong thing, and not trusting payment. Ideas: a voice list ('one kilo onions, two litres milk') turned into a cart with pictures and quantities; read-back confirmation in their language; a 'call the shop' fallback; cash or UPI on delivery. I'd prioritize the voice list with picture confirmation, because a wrong order is the trust killer. Design details: works on slow networks by recording first and uploading in the background; local-language speech; big tap targets; repeat last order. Success: share of voice orders placed without edits after delivery, repeat order rate in 30 days; guardrails: wrong-item complaints and refund rate.",
+      "expected_output": "Calibration (strong). Specific users and constraints, pains, a range of ideas, a prioritized pick with a reason, design details shaped by the constraints, and success and guardrail metrics. Mostly 3s and 4s.",
+      "assert": {
+        "mean_score_between": [
+          2.75,
+          4.0
+        ]
+      },
+      "files": []
+    },
+    {
+      "id": 16,
+      "group": "benchmark",
+      "prompt": "Score this answer for a PM role. Question: What metrics would you track for a new 'split the bill' feature in a UPI payments app?\nAnswer: see references/examples/metrics-split-the-bill.md, the section 'The answer' (read the file).",
+      "expected_output": "The worked example should score strong: mean 3 or above, with quotes as evidence.",
+      "assert": {
+        "mean_score_between": [
+          3.0,
+          4.0
+        ]
+      },
+      "files": [
+        "references/examples/metrics-split-the-bill.md"
+      ]
     }
   ]
 }

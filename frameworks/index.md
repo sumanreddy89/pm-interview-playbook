@@ -4,6 +4,10 @@ This index maps question types to their reference files. When a user selects a f
 
 Scoring: `rubric.md` holds the competency rubric (1–4, with level expectations) used to score answers.
 
+India: `india-pm.md` adds the context for interviews at companies building for Indian users (segments, constraints, payments and trust, distribution, regulation, unit economics). Use it with the framework for the question type.
+
+Worked answers: `examples/` holds annotated strong answers, scored against the rubric. Start with `examples/metrics-split-the-bill.md`.
+
 ## Framework Map
 
 | Question Type | Reference File | Sample Questions |

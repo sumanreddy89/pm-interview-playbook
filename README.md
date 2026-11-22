@@ -148,9 +148,26 @@ You can use them purely as reading material, or pair them with the Claude skill 
 
 ---
 
+## India PM interviews
+
+[frameworks/india-pm.md](frameworks/india-pm.md) adds what changes when the product is for Indian users: segmenting by city tier, language, device and digital familiarity; designing for low-end phones and metered data; UPI, cash on delivery and trust; distribution and seasonality; regulation; and tighter unit economics. It comes with practice questions built on generic cases, and the coach uses it automatically for India-market questions.
+
+## Worked answers
+
+[frameworks/examples/](frameworks/examples/) holds annotated strong answers scored against the rubric, with what weaker versions sound like. The first is [metrics for a "split the bill" feature in a UPI app](frameworks/examples/metrics-split-the-bill.md).
+
 ## Evals
 
-`pm-interview-coach/evals/evals.json` has the skill's test prompts and what a good response looks like, in the format the skill-creator skill runs. Besides teaching, practice and mock cases, it includes a calibration set: the same metrics question answered weakly, middlingly and strongly (scores should rise in that order), and one answer scored at two levels (APM should score higher than Group PM). The expected bands are the author's; checking them against human interviewers' scores is the next step.
+`pm-interview-coach/evals/evals.json` has the skill's test prompts and what a good response looks like. Besides teaching, practice and mock cases, it has calibration sets for metrics, estimation, prioritization and product design (weak, middling and strong answers to one question each), a benchmark (the worked split-the-bill answer should score 3 or above), and one answer scored at two levels.
+
+Run them with a runner that checks the scores, not just the wording:
+
+```bash
+python3 scripts/run_evals.py --check                 # validate the file; free, and CI runs it
+ANTHROPIC_API_KEY=... python3 scripts/run_evals.py   # score every case and check the results
+```
+
+It fails if a score falls outside its expected band, if a weak answer doesn't score below a middling one and a middling one below a strong one, or if the same answer doesn't score higher at APM than at Group PM. Each case is one model call. The expected bands are the author's; checking them against human interviewers' scores is still to do.
 
 ## Editing the frameworks
 

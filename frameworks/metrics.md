@@ -32,6 +32,19 @@ Organized around the user funnel:
 - **Engagement**: Are users getting value from the product? (e.g., DAU/MAU ratio, session length, # key actions/user)
 - **Retention**: Are users coming back? (e.g., D7/D30 retention rate, churn rate)
 
+### Going deeper: a metric tree
+Senior interviewers often ask "what drives that North Star?" Answer with a tree: break the North Star into the factors that multiply or add up to it, then each factor into things a team can change. It shows where to look when the number moves, and which team owns which branch.
+
+> Example for a food delivery app, North Star *orders per week*:
+> - Orders per week = **active customers** × **orders per active customer**
+>   - Active customers = new customers + returning customers − churned customers
+>   - Orders per active customer = sessions per customer × **conversion per session**
+>     - Conversion per session ← restaurant choice, delivery time shown, price and fees, payment success
+>
+> If orders drop, walk the tree: is it fewer customers or fewer orders each? If fewer orders each, is it fewer sessions or worse conversion? Then which input changed?
+
+Keep the tree to three levels in an interview, and name the one branch you'd watch most closely and why.
+
 ---
 
 ## Diagnosing a Metric Drop

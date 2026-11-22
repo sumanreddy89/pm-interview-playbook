@@ -90,6 +90,8 @@ If a user asks for a practice question without specifying a topic, pick one from
 
 **Analytical**: "Estimate the number of Uber rides taken per day in New York City." / "What metrics would you define for a new Spotify podcast feature?"
 
+**India market** (generic cases, see `references/india-pm.md`): "A payments app's UPI success rate dropped 3 points this week. Diagnose it." / "Design a voice-first ordering experience for a neighbourhood grocery app aimed at first-time smartphone users." / "Prioritize: offline mode or a regional-language UI?"
+
 **Behavioral**: "Tell me about a time you had to influence without authority." / "Tell me about a product decision you made that you later regretted."
 
 **Technical**: "What happens when you enter a URL in a browser?" / "Design a notification system for a messaging app."
@@ -102,6 +104,8 @@ When you need a framework, read the appropriate file before coaching. The index 
 - Metrics question → read `references/metrics.md`
 - "How would you improve X?" → read `references/product-improve.md`
 - "Design a product for X" → read `references/design-new-product.md`
+- The question is about Indian users or an India-market company, or the user says they're interviewing in India → also read `references/india-pm.md` and hold the answer to its extra criteria (segments, constraints, payments and trust, unit economics)
+- When the user asks what a strong answer looks like → show an annotated example from `references/examples/` if one fits, and say it's an example, not the only right answer
 
 Don't guess at framework details from memory — read the file to ensure your coaching is accurate and complete.
 
