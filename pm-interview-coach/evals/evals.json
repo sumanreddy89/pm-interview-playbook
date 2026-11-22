@@ -1,0 +1,47 @@
+{
+  "skill_name": "pm-interview-coach",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I have a Google PM interview next week and I'm not confident about metrics questions. Can you run me through a practice metrics question and give me feedback on my answer?",
+      "expected_output": "Asks a metrics question and waits for the answer without revealing the framework. Then scores the answer with references/rubric.md at the stated or assumed level: each tested competency 1-4 with a quote from the answer as evidence, what went well, what was missing (tied to metrics.md: product goal, structure, North Star, health metrics), and one key improvement.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I want to understand how to answer estimation questions. Can you teach me the framework and then give me one to try?",
+      "expected_output": "Loads estimation.md, explains both approaches (top-down equation and intermediate value anchor), walks through an example including the sanity check, then offers a practice question.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Let's do a mock PM interview. I'm interviewing for a Senior PM role at Spotify. Give me 3 questions and interview me properly.",
+      "expected_output": "Asks about focus areas and time, picks 3 questions of different types, states a time box for each and that feedback comes at the end. Runs them one at a time with interviewer-style follow-ups and gives no scores, hints or feedback until all three are answered. Then gives the debrief: per-question rubric scores at Senior PM level with quoted evidence, patterns across answers, a practice-estimate verdict, and a practice record to paste into the next session.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Score my answer for a PM role. Question: What metrics would you define for Spotify's new podcast comments feature?\nMy answer: I'd look at DAU, MAU and the number of comments. If comments go up, the feature is working. I'd also track time spent in the app because that's important for Spotify.",
+      "expected_output": "Calibration (weak). Scores mostly 1s: no product goal, vanity metrics (DAU/MAU, raw comment count), no guardrails, no user focus. Quotes 'If comments go up, the feature is working' as evidence of the missing counter-metric. The one improvement is to start from the goal and add a guardrail. No competency above 2.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Score my answer for a PM role. Question: What metrics would you define for Spotify's new podcast comments feature?\nMy answer: First, the goal: comments should make podcast listening more social so people come back. My North Star would be weekly listeners who read or write a comment. I'd also track comments per episode and replies per comment. If those go up, we've succeeded.",
+      "expected_output": "Calibration (middling). Mostly 2s with a 3 for structure or metrics: states a goal and a North Star, but no guardrails or counter-metrics and no segment. Quotes the North Star line as the strength and 'If those go up, we've succeeded' as the gap. Overall clearly above case 4 and below case 6.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Score my answer for a PM role. Question: What metrics would you define for Spotify's new podcast comments feature?\nMy answer: Let me start with why Spotify would build this: to deepen engagement with podcasts, where it competes with Apple and YouTube, and to give creators a reason to publish on Spotify first. So the goal is listener retention and creator loyalty. I'll focus on regular podcast listeners, since that's where comments are likely to matter. North Star: share of weekly podcast listeners who engage with comments (read, react or write), because reading matters as much as writing. Supporting: replies per comment, for real conversation, and creator responses. Guardrails: listening time per session must not drop if comments pull attention away from the audio, report rate and moderation load, and creator opt-out rate. Finally, I'd compare 4-week podcast retention for engaged and matched non-engaged listeners, because comment counts alone could go up from spam without any value.",
+      "expected_output": "Calibration (strong). Mostly 3s and 4s: ties the goal to Spotify's strategy, picks a segment for a reason, reading counts as engagement, guardrails on listening time, moderation and creator opt-out, and a retention comparison that guards against spam inflating counts. Quotes at least two of these. Still names one improvement, such as sizing or how to set targets.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Score this same answer twice: once for an APM role and once for a Group PM role. Question: What metrics would you define for Spotify's new podcast comments feature?\nAnswer: First, the goal: comments should make podcast listening more social so people come back. My North Star would be weekly listeners who read or write a comment. I'd also track comments per episode and replies per comment. If those go up, we've succeeded.",
+      "expected_output": "Uses the level table in references/rubric.md. The APM scores are higher than the Group PM scores for the same answer, because a Group PM is expected to frame strategy, sequence bets and handle second-order effects unprompted. Explains which expectations changed, with the same quotes as evidence.",
+      "files": []
+    }
+  ]
+}
