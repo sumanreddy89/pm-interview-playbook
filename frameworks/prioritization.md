@@ -44,6 +44,19 @@ Evaluate each option across the RICE framework:
 
 The higher the RICE score, the higher the priority.
 
+**RICE isn't the only tool. Pick the one that fits the question, and say why:**
+
+| Method | Use it when | How it works |
+|---|---|---|
+| **RICE** | Comparing many backlog items with measurable reach | Reach × Impact × Confidence ÷ Effort |
+| **ICE** | Fast triage of experiments or growth ideas | Impact × Confidence × Ease, each 1–10; quick, but subjective |
+| **Cost of delay / WSJF** | Time matters: a deadline, a season, a competitor | Value lost per week of delay ÷ duration; do the short, urgent, valuable things first |
+| **Kano** | Deciding what customers expect vs. what delights them | Sort features into must-haves, performance features and delighters; must-haves come before delighters, however exciting |
+| **Opportunity scoring** | You have user research on importance and satisfaction | Prioritize jobs that are important but poorly served today |
+| **Strategy fit** | Options differ in kind, not size (fix a bug vs. enter a market) | Rank by how directly each serves the current company goal, then sanity-check effort |
+
+Scores are a conversation aid, not an answer. The interviewer wants your judgment: what you'd do first, what you'd give up, and what would change your mind.
+
 ### Step 4: Recommend
 Synthesize your comparison into a clear recommendation:
 - Which issue/option should be prioritized, and why?

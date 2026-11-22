@@ -45,6 +45,20 @@ Before naming a price or strategy, work through these dimensions:
 
 ---
 
+## Check the Unit Economics
+A price has to survive the arithmetic. Before recommending one, show roughly what each customer is worth and what they cost:
+
+- **Contribution per order (or per month)** = price − variable costs (payment fees, delivery, support, cloud cost, discounts)
+- **Customer lifetime value (LTV)** ≈ contribution per month × expected months a customer stays (1 ÷ monthly churn)
+- **Customer acquisition cost (CAC)**: marketing and sales spend ÷ new customers it brings
+- **Payback period** = CAC ÷ contribution per month. Under 12 months is a common comfort zone for consumer subscriptions; say what you'd assume and why.
+
+> Example: a streaming subscription at ₹149 a month, with ₹30 of content-delivery, payment and support cost per subscriber, contributes ₹119 a month. With 8% monthly churn, the average subscriber stays about 12.5 months, so LTV ≈ ₹1,490. If acquiring a subscriber costs ₹600, payback is about 5 months and LTV is about 2.5× CAC. A price cut to ₹99 drops contribution to ₹69 and stretches payback to almost 9 months, unless the lower price brings churn or CAC down. That's the trade-off to discuss.
+
+(The figures are illustrative; in a real answer, say which you'd verify.)
+
+---
+
 ## Putting It Together
 1. Define the business goal (gain share vs. maximize profit?)
 2. Assess differentiation — how much pricing power do you have?

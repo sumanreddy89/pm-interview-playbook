@@ -24,10 +24,14 @@ Back-of-the-envelope estimation. Tests whether you can decompose a complex unkno
 5. **Sanity check** — does the result make intuitive sense? Check from a different angle
 
 **Example:** "How many YouTube videos are uploaded per day?"
-- Equation: `# creators × # videos/creator/day`
-- Break down: creators = 10% of eligible US population (age 20–65) = ~17M
-- Estimate: 0.5 videos/creator/day → 8.5M videos/day
-- Sanity check: that's ~160 min/creator/day uploading, which seems high → revise to ~4M
+- **Clarify:** worldwide, all video lengths, a typical day.
+- **Equation:** `uploaders per month × uploads per uploader per month ÷ 30`
+- **Break down** (each number is an assumption to say out loud):
+  - Monthly YouTube users: about 2.5 billion
+  - Share who upload anything in a month: about 1% → 25 million uploaders
+  - Split them: 2 million regular creators uploading about 3 times a week (≈ 13 a month), and 23 million occasional uploaders at about 2 a month
+- **Calculate:** (2M × 13) + (23M × 2) = 26M + 46M = 72M uploads a month ÷ 30 ≈ **2.4 million videos a day**
+- **Sanity check from another angle:** if the average upload is about 10 minutes, that's 24 million minutes, or 400,000 hours, a day. Divided by 1,440 minutes in a day, that's roughly 280 hours of video uploaded every minute. If you remember a published "hours uploaded per minute" figure, compare with it: being in the same order of magnitude is what matters.
 
 ---
 
