@@ -33,6 +33,13 @@ class Evals(unittest.TestCase):
         self.assertIn("don't rise", joined)
         self.assertIn("APM 2.00 not above", joined)
 
+    def test_a_run_with_no_scores_fails(self):
+        # Regression (22 Nov 2026): every request failed and the runner still printed PASS.
+        evals = [{"id": 4, "assert": {"mean_score_between": [1, 2]}}]
+        ok, fails = r.grade(evals, {}, {}, expected={4})
+        self.assertFalse(ok)
+        self.assertIn("no scores for id 4", fails[0])
+
     def test_check_flags_unknown_asserts_and_missing_files(self):
         bad = [{"id": 1, "prompt": "p", "expected_output": "e", "assert": {"nope": 1}, "files": ["references/missing.md"]},
                {"id": 1, "prompt": "", "expected_output": "e"}]

@@ -3,6 +3,7 @@
 
     python3 scripts/run_evals.py --check            # validate evals.json; no API calls (CI runs this)
     ANTHROPIC_API_KEY=... python3 scripts/run_evals.py [--model claude-sonnet-5-5] [--only 4,5,6]
+    python3 scripts/run_evals.py --ant              # use your `ant auth login` instead of a key
 
 Run mode sends each case that has an "assert" to the Claude API with the skill and its
 references as the system prompt, asks for the scores as JSON at the end, and checks:
@@ -16,6 +17,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 import urllib.request
 from pathlib import Path
@@ -84,9 +86,15 @@ def mean(scores):
     return sum(scores.values()) / len(scores)
 
 
-def grade(evals, means, level_means):
-    """Check results against the asserts. Returns (passed, failures)."""
+def grade(evals, means, level_means, expected=None):
+    """Check results against the asserts. Returns (passed, failures).
+    `expected` is the set of ids that were run; any without a result is a failure, so a run
+    where every request failed can't pass."""
     failures = []
+    if expected is not None:
+        missing = sorted(i for i in expected if i not in means and i not in level_means)
+        if missing:
+            failures.append("no scores for id " + ", ".join(map(str, missing)))
     for e in evals:
         a = e.get("assert") or {}
         if "mean_score_between" in a and e["id"] in means:
@@ -119,6 +127,18 @@ def system_prompt(e):
     return "\n\n---\n\n".join(parts)
 
 
+def ask_ant(model, system, prompt):
+    """Send the request through the Anthropic CLI (`ant`), which uses your `ant auth login`."""
+    body = json.dumps({"model": model, "max_tokens": 2500, "temperature": 0, "system": system,
+                       "messages": [{"role": "user", "content": prompt}]})
+    out = subprocess.run(["ant", "messages", "create", "--format", "json"], input=body,
+                         capture_output=True, text=True, timeout=300)
+    if out.returncode != 0:
+        raise RuntimeError(" ".join((out.stderr + " " + out.stdout).split())[:600])
+    data = json.loads(out.stdout)
+    return "".join(b.get("text", "") for b in data.get("content", []))
+
+
 def ask(model, system, prompt, key):
     body = json.dumps({"model": model, "max_tokens": 2500, "temperature": 0, "system": system,
                        "messages": [{"role": "user", "content": prompt}]}).encode()
@@ -134,6 +154,7 @@ def main(argv=None):
     ap.add_argument("--check", action="store_true", help="validate the eval file only")
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--only", help="comma-separated ids")
+    ap.add_argument("--ant", action="store_true", help="send requests with the Anthropic CLI login (ant auth login)")
     args = ap.parse_args(argv)
     evals = load()
     problems = check(evals)
@@ -144,16 +165,25 @@ def main(argv=None):
         print(f"evals.json OK: {len(evals)} cases, {sum(1 for e in evals if e.get('assert'))} with assertions")
         return 0
     key = os.environ.get("ANTHROPIC_API_KEY")
-    if not key:
-        print("Set ANTHROPIC_API_KEY to run the evals (or use --check).")
+    if not key and not args.ant:
+        print("Set ANTHROPIC_API_KEY, or log in with `ant auth login` and pass --ant (or use --check).")
         return 2
+    send = (lambda sys_, prompt: ask_ant(args.model, sys_, prompt)) if args.ant else (lambda sys_, prompt: ask(args.model, sys_, prompt, key))
     only = {int(x) for x in args.only.split(",")} if args.only else None
-    means, level_means = {}, {}
+    means, level_means, ran = {}, {}, set()
     for e in evals:
         if not e.get("assert") or (only and e["id"] not in only):
             continue
         levels = e["assert"].get("apm_mean_above_gpm_mean")
-        text = ask(args.model, system_prompt(e), e["prompt"] + (LEVEL_ASK if levels else SCORE_ASK), key)
+        ran.add(e["id"])
+        try:
+            text = send(system_prompt(e), e["prompt"] + (LEVEL_ASK if levels else SCORE_ASK))
+        except Exception as err:  # one failed call shouldn't hide the rest
+            print(f"id {e['id']}: request failed: {err}")
+            if "credit balance is too low" in str(err):
+                print("Your API credit balance is too low; add credits under Plans & Billing and run again.")
+                return 2
+            continue
         if levels:
             a, g = parse_scores(text, "SCORES_APM"), parse_scores(text, "SCORES_GROUP_PM")
             if a and g:
@@ -168,7 +198,7 @@ def main(argv=None):
                 print(f"id {e['id']} ({e.get('group', '')}): mean {mean(s):.2f} {s}")
             else:
                 print(f"id {e['id']}: no parseable SCORES line")
-    ok, failures = grade(evals, means, level_means)
+    ok, failures = grade(evals, means, level_means, ran)
     print("\n".join(["", "PASS" if ok else "FAIL"] + failures))
     return 0 if ok else 1
 

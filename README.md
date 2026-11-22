@@ -165,6 +165,7 @@ Run them with a runner that checks the scores, not just the wording:
 ```bash
 python3 scripts/run_evals.py --check                 # validate the file; free, and CI runs it
 ANTHROPIC_API_KEY=... python3 scripts/run_evals.py   # score every case and check the results
+python3 scripts/run_evals.py --ant                   # same, using the Anthropic CLI login (ant auth login)
 ```
 
 It fails if a score falls outside its expected band, if a weak answer doesn't score below a middling one and a middling one below a strong one, or if the same answer doesn't score higher at APM than at Group PM. Each case is one model call. The expected bands are the author's; checking them against human interviewers' scores is still to do.
