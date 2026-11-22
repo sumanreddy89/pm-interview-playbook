@@ -131,7 +131,7 @@ def system_prompt(e):
 
 def ask_ant(model, system, prompt):
     """Send the request through the Anthropic CLI (`ant`), which uses your `ant auth login`."""
-    body = json.dumps({"model": model, "max_tokens": 2500, "temperature": 0, "system": system,
+    body = json.dumps({"model": model, "max_tokens": 8000, "system": system,
                        "messages": [{"role": "user", "content": prompt}]})
     out = subprocess.run(["ant", "messages", "create", "--format", "json"], input=body,
                          capture_output=True, text=True, timeout=300)
@@ -142,7 +142,7 @@ def ask_ant(model, system, prompt):
 
 
 def ask(model, system, prompt, key):
-    body = json.dumps({"model": model, "max_tokens": 2500, "temperature": 0, "system": system,
+    body = json.dumps({"model": model, "max_tokens": 8000, "system": system,
                        "messages": [{"role": "user", "content": prompt}]}).encode()
     headers = {"content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01"}
     if os.environ.get("ANTHROPIC_WORKSPACE_ID"):
@@ -164,6 +164,7 @@ def main(argv=None):
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--only", help="comma-separated ids")
     ap.add_argument("--ant", action="store_true", help="send requests with the Anthropic CLI login (ant auth login)")
+    ap.add_argument("--save", help="folder to save each raw response in, for checking how cases were scored")
     args = ap.parse_args(argv)
     evals = load()
     problems = check(evals)
@@ -193,6 +194,9 @@ def main(argv=None):
                 print("Your API credit balance is too low; add credits under Plans & Billing and run again.")
                 return 2
             continue
+        if args.save:
+            Path(args.save).mkdir(parents=True, exist_ok=True)
+            (Path(args.save) / f"case-{e['id']}.md").write_text(text, encoding="utf-8")
         if levels:
             a, g = parse_scores(text, "SCORES_APM"), parse_scores(text, "SCORES_GROUP_PM")
             if a and g:
